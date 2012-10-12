@@ -1,0 +1,13 @@
+{% from "_formhelpers.html" import render_field %}
+<h1>Welcome to Skim</h1>
+
+<a href={{ url_for('register') }}>Sign Up</a>
+
+<form method=post action="/">
+  <dl>
+    {{ form.hidden_tag() }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.password) }}
+  </dl>
+  <p><input type=submit value=Login>
+</form>

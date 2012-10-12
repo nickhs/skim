@@ -1,6 +1,6 @@
 from flask import Flask, session, render_template, request, jsonify, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.wtf import Form, TextField
+from flask.ext.wtf import Form, TextField, PasswordField
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.py', silent=False)
@@ -71,27 +71,32 @@ class NewUserForm(Form):
     email = TextField('Email')
     password = TextField('Password')
 
+
 class LoginForm(Form):
     email = TextField("Email")
-    password = TextField("Password")
+    password = PasswordField("Password")
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def home():
-    if not session.get('user'):
-        return render_template('stuff')
+    if not session.get('user_id'):
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user is not None and user.password == form.password.data:
+                session['user_id'] = user.id
+
+        return render_template('landing.html', form=form)
     else:
-        return render_template('home')
+        return render_template('index.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
-def new_user():
+def register():
     form = NewUserForm()
     if form.validate_on_submit():
         user = User(form.email.data, form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        print user
+        add_item(user)
         return redirect(url_for('home'))
     else:
         print "Did not validate"
@@ -107,8 +112,7 @@ def add_new_article(id):
 
         if article is None:
             article = Article(form.data.link)
-            db.session.add(article)
-            db.session.commit()
+            add_item(article)
             process_article(article)
 
         return jsonify({'status': 'okay', 'link': article.link, 'id': article.id})
@@ -116,6 +120,11 @@ def add_new_article(id):
 
 def process_article(article):
     pass
+
+
+def add_item(item):
+    db.session.add(item)
+    db.session.commit()
 
 if __name__ == "__main__":
     app.run()
