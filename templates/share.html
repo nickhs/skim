@@ -1,0 +1,12 @@
+{% from "_formhelpers.html" import render_field %}
+
+<h1>Share something!</h1>
+
+<form method=post action={{ url_for('share') }}>
+  <dl>
+    {{ form.hidden_tag() }}
+    {{ render_field(form.link) }}
+    {{ render_field(form.friends) }}
+  </dl>
+  <p><input type=submit value=Share>
+</form>

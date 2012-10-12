@@ -1,1 +1,9 @@
 <h1>Welcome to the party!</h1>
+
+<h2>User: {{ user.id }}</h2>
+
+<ul>
+{% for share in shares %}
+  <li><a href=/article/{{ share.article.id }}>{{ share.article.link }}</a></li>
+{% endfor %}
+</ul>
