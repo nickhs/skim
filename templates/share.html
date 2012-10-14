@@ -1,5 +1,7 @@
 {% from "_formhelpers.html" import render_field %}
+{% extends "base.html" %}
 
+{% block content %}
 <h1>Share something!</h1>
 
 <form method=post action={{ url_for('share') }}>
@@ -10,3 +12,5 @@
   </dl>
   <p><input type=submit value=Share>
 </form>
+
+{% endblock %}

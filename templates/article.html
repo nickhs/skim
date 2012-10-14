@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>This is an article</h1>
 
 <p>Link: {{ article.link }}</p>
@@ -5,3 +8,4 @@
 
 <p>Title: {{ article.title }}</p>
 <p>Text: {{ article.text|safe }}</p>
+{% endblock %}

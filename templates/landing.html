@@ -1,4 +1,7 @@
 {% from "_formhelpers.html" import render_field %}
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Welcome to Skim</h1>
 
 <a href={{ url_for('register') }}>Sign Up</a>
@@ -11,3 +14,4 @@
   </dl>
   <p><input type=submit value=Login>
 </form>
+{% endblock %}
