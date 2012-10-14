@@ -89,7 +89,7 @@ class Share(db.Model):
 
 class NewUserForm(Form):
     email = TextField('Email')
-    password = TextField('Password')
+    password = PasswordField('Password')
 
 
 class LoginForm(Form):

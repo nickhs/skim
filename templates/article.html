@@ -3,7 +3,7 @@
 {% block content %}
 <h1>This is an article</h1>
 
-<p>Link: {{ article.link }}</p>
+<p>Link: <a href={{ article.link }}>{{ article.link }}</a></p>
 <p>ID: {{ article.id }}</p>
 
 <p>Title: {{ article.title }}</p>
