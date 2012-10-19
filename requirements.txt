@@ -3,3 +3,4 @@ requests
 Flask-SQLAlchemy
 SQLAlchemy
 Flask-WTF
+psycopg2
