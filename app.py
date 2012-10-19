@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template, request, jsonify, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 from flask.ext.wtf import Form, TextField, PasswordField
 import requests
 
@@ -156,13 +157,22 @@ def share():
 
         return redirect(url_for('home'))
 
-    return render_template('share.html', form=form)
+    friends = get_most_shared(session.get('user_id'))
+    return render_template('share.html', form=form, friends=friends)
 
 
 @app.route('/article/<id>')
 def view_article(id):
     article = Article.query.get(id)
     return render_template('article.html', article=article)
+
+
+@app.route('/logout')
+def logout():
+    for key in session.keys():
+        session.pop(key)
+
+    return redirect(url_for('home'))
 
 
 @app.route('/api/user/<id>/articles/new', methods=['POST'])
@@ -209,6 +219,28 @@ def process_article(article):
 def add_item(item):
     db.session.add(item)
     db.session.commit()
+
+
+def get_most_shared(user, limit=None):
+    if not limit:
+        limit = 10
+
+    if type(user) == User:
+        id = user.id
+    else:
+        id = user
+
+    result = db.session.query(Share.receiver_id, func.count('*')).\
+            filter_by(originator_id=id).\
+            group_by(Share.receiver_id).\
+            limit(limit).all()
+
+    ret = []
+    for r in result:
+        ret.append(User.query.get(r[0]))
+
+    return ret
+
 
 if __name__ == "__main__":
     app.run()

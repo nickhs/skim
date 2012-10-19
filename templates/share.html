@@ -11,6 +11,12 @@
     {{ render_field(form.friends) }}
   </dl>
   <p><input type=submit value=Share>
+
+  <div>
+      <h1>Your Top friends are:</h1>
+      {% for friend in friends %}
+      <h3>{{ friend.email }}</h3>
+      {% endfor %}
 </form>
 
 {% endblock %}
