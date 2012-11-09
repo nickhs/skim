@@ -1,0 +1,185 @@
+@font-face {
+font-family: entypo;
+src: url('fonts/entypo.eot'),
+     url('fonts/entypo.svg'),
+     url('fonts/entypo.ttf'),
+     url('fonts/entypo.woff');
+}
+
+html,body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	/*background: url('images/cream_dust.png') repeat;*/
+	background: #f6f9fa;
+	color: #000;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+/* Navigation and Header */
+
+h1 {
+	font-size: 2em;
+	text-align: center;
+	margin: 0;
+	padding: 5px 0 5px 0;
+}
+
+header {
+	background: #fff;
+	border-bottom: 1px #d8d8d8 solid;
+	display: block;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+nav {
+	display: block;
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100%;
+}
+
+nav a {
+	color: #000;
+	display: inline-block;
+	font-size: 1em;
+	padding: 16px 0 15px 0;
+	text-align: center;
+	text-decoration: none;
+	width: 100px;
+}
+
+nav a:last-of-type {
+	float: right;
+}
+
+nav a:hover {
+	background: #000;
+	color: #FFF;
+}
+
+
+/* Article List */
+
+.article-list {
+	border: 1px solid #bbb;
+	min-width: 300px;
+	max-width: 600px;
+	margin: 80px auto 20px auto;
+
+	border-radius: 5px;
+	-webkit-background-clip: padding-box;
+	font-family: 'Crimson Text', serif;
+
+	box-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 8px 10px rgba(0,0,0,0.2);
+}
+
+ul {
+/*	background: yellow;*/
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	background-color: #f9f9f9;
+	padding: 0 10px 0 10px;
+	border-bottom: 1px dashed #bbb;
+
+	-webkit-transition: all 100ms ease-in-out;
+	-moz-transition: all 100ms ease-in-out;
+	-ms-transition: all 100ms ease-in-out;
+	-o-transition: all 100ms ease-in-out;
+	transition: all 100ms ease-in-out;
+}
+
+li:first-of-type {
+	border-radius: 5px 5px 0 0;
+}
+
+li:nth-child(2n+1) {
+	background-color: #fff;
+}
+
+li:last-of-type {
+	border-bottom: 0;
+	border-radius: 0 0 5px 5px;
+}
+
+li a {
+	text-decoration: none;
+}
+
+li:hover {
+	z-index: 999;
+	-webkit-transform: scale(1.02);
+	box-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 8px 10px rgba(0,0,0,0.2);
+	border-bottom: 1px solid #fff;
+}
+
+li .username {
+	display: inline-block;
+	font-size: 0.8em;
+	color: gray;
+	padding: 10px 0 0px 0;
+}
+
+li .date {
+	display: inline-block;
+	position: relative;
+	float: right;
+
+	font-size: 0.8em;
+	color: gray;
+	padding: 10px 0 0px 0;
+}
+
+li .title {
+	color: #000;
+	font-weight: 600;
+	display: block;
+	font-size: 1.5em;
+	padding: 0;
+}
+li .description {
+	color: #7f7f7f;
+	display: block;
+	font-size: 1em;
+	font-weight: 400;
+
+	padding: 5px 0 10px 0;
+}
+
+li .source {
+	display: block;
+	position: relative;
+
+	font-size: 0.8em;
+	font-weight: 400;
+	color: gray;
+}
+
+@media only screen and (max-width : 600px) {
+
+	.article-list {
+		border: 1px solid #bbb;
+		min-width: 300px;
+		max-width: 600px;
+		margin: 50px auto 20px auto;
+
+		border-radius: 5px;
+		-webkit-background-clip: padding-box;
+		font-family: 'Crimson Text', serif;
+
+		box-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 8px 10px rgba(0,0,0,0.2);
+	}
+
+}
+
