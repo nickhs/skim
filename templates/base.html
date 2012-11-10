@@ -3,17 +3,26 @@
 <html lang="en">
   <head>
     {% block head %}
-    <link rel="stylesheet" href="/static/css/thing.css" />
     <title>{% block title %}Skim{% endblock %}</title>
+    <meta name = "viewport" content = "width = device-width">
+    <link href='http://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="static/css/avgrund.css">
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    <script type="text/javascript" src="static/js/avgrund.js"></script>
     {% endblock %}
   </head>
 
   <body>
+    {% block header %}
+    <header>
+      <h1>skimly</h1>
+      <nav>
+        <a href="">Add</a>
+        <a href="">Log Out</a>
+      </nav>
+    </header>
+    {% endblock %}
+
     {% block content %}{% endblock %}
-    <footer>
-        <a href={{ url_for('home') }}>Home</a>
-        <a href={{ url_for('share') }}>Share</a>
-        <a href={{ url_for('register') }}>Register</a>
-        <a href={{ url_for('logout') }}>Logout</a>
   </body>
 </html>
