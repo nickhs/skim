@@ -3,6 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from flask.ext.wtf import Form, TextField, PasswordField
 import requests
+import datetime
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.py', silent=False)
@@ -15,6 +16,9 @@ class User(db.Model):
     email = db.Column(db.String)
     name = db.Column(db.String)
     password = db.Column(db.String)
+
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    modified = db.Column(db.DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
     shares = db.relationship('Share', backref='receiver',
                              primaryjoin="User.id==Share.receiver_id",
@@ -45,6 +49,9 @@ class Article(db.Model):
     excerpt = db.Column(db.String(250))
     parsed = db.Column(db.Boolean)
 
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    modified = db.Column(db.DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
+
     shares = db.relationship('Share', backref='article',
                              lazy='dynamic')
 
@@ -52,13 +59,23 @@ class Article(db.Model):
         self.link = link
         self.parsed = parsed
 
-    def add_params(self, title, text, author, icon=None, parsed=True):
+    def add_params(self, title, text, author, excerpt=None, icon=None, parsed=True):
         self.title = title
-        self.text = text
+        self.text = self._format_text(text)
         self.author = author
         self.icon = icon
-        self.excerpt = self.text[0:250]
+
+        if excerpt is None:
+            self.excerpt = self.text[0:250]
+        else:
+            self.excerpt = excerpt
+
         self.parsed = parsed
+
+    def _format_text(self, text):
+        text = text.replace('\n', '</p><p>')
+        text = '<p>' + text + '</p>'
+        return text
 
     def __repr__(self):
         return "<Article: %r>" % self.title
@@ -74,6 +91,9 @@ class Share(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
     read = db.Column(db.Boolean)
     comments = db.Column(db.Text)
+
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    modified = db.Column(db.DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
     def __init__(self, originator, receiver, article, read=False):
         self.originator_id = originator.id
@@ -116,8 +136,7 @@ def home():
     else:
         id = session.get('user_id')
         user = User.query.get(id)
-        # TODO: Order by date, pagination
-        shares = user.shares.all()
+        shares = user.shares.order_by(Share.created.desc()).all()
         return render_template('index.html', user=user, shares=shares)
 
 
@@ -204,15 +223,12 @@ def process_article(article):
     response = requests.get(url, params=params)
 
     if response.status_code == requests.codes.ok:
-        article.text = response.json.get('text')
-        article.title = response.json.get('title')
-        article.author = response.json.get('author')
-        print response.json.get('tags')
-        print response.json.get('stats')
-        print response.json.get('summary')
-        article.parsed = True
+        text = response.json.get('text')
+        title = response.json.get('title')
+        author = response.json.get('author')
+        excerpt = response.json.get('summary')
+        article.add_params(title, text, author, excerpt)
         add_item(article)
-
         return response
 
 

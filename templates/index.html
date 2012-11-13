@@ -7,10 +7,10 @@
   {% for share in shares %}
     <li>
       <a href=/article/{{ share.article.id }}>
-        <span class="username">Sent by foo via bla.com</span>
-        <span class="date">Date</span>
-        <span class="title">Artile title</title>
-        <span class="description">Short bit</title>
+        <span class="username">Sent by {{ share.originator }} via {{ share.article.link }}</span>
+        <span class="date">{{ share.created }}</span>
+        <span class="title">{{ share.article.title }}</title>
+        <span class="description">{{ share.article.excerpt|safe }}</title>
       </a>
     </li>
   {% endfor %}

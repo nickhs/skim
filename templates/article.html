@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>This is an article</h1>
-
 <p>Link: <a href={{ article.link }}>{{ article.link }}</a></p>
-<p>ID: {{ article.id }}</p>
-
 <p>Title: {{ article.title }}</p>
 <p>Text: {{ article.text|safe }}</p>
 {% endblock %}
