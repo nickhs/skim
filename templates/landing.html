@@ -1,17 +1,23 @@
 {% from "_formhelpers.html" import render_field %}
 {% extends "base.html" %}
 
+{% block header %}
+{% endblock %}
+
 {% block content %}
 <h1>Welcome to Skim</h1>
 
-<a href={{ url_for('register') }}>Sign Up</a>
+<section class="centered">
+  <a href={{ url_for('register') }}>Sign Up</a>
 
-<form method=post action="/">
-  <dl>
-    {{ form.hidden_tag() }}
-    {{ render_field(form.email) }}
-    {{ render_field(form.password) }}
-  </dl>
-  <p><input type=submit value=Login>
-</form>
+  <form method=post action="/">
+    <dl>
+      {{ form.hidden_tag() }}
+      {{ render_field(form.email) }}
+      {{ render_field(form.password) }}
+    </dl>
+    <p><input type=submit value=Login>
+  </form>
+</section>
+
 {% endblock %}
